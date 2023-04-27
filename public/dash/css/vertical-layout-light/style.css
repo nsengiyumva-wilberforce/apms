@@ -28368,12 +28368,13 @@ div.tagsinput span.tag a {
 
 .main-panel {
   transition: width 0.25s ease, margin 0.25s ease;
-  width: calc(100% - 220px);
+  width: calc(100% - 600px);
   min-height: calc(100vh - 97px);
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
+  margin-left: 16%;
 }
 
 @media (max-width: 991px) {
@@ -28400,12 +28401,12 @@ div.tagsinput span.tag a {
 
 /* Sidebar */
 .sidebar {
-  min-height: calc(100vh - 97px);
+  min-height: calc(100vh - 50px);
   background: #F4F5F7;
   font-family: "Manrope", sans-serif;
   font-weight: 500;
   padding: 0;
-  width: 220px;
+  width: 400px;
   z-index: 11;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
@@ -30809,3 +30810,11 @@ div.tagsinput span.tag a {
 }
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
+        ul li button.nav-link {
+            color: #34818a;
+        }
+
+        ul li button.active {
+            background-color: #34818a !important;
+            color: #ffffff;
+        }

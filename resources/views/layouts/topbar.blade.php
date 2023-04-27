@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-success fixed-top">
+<nav class="navbar navbar-expand-lg bg-success fixed-top py-4">
   <div class="container-fluid">
     <h5 class="navbar-brand text-light lead font-weight-bold f3" href="#">AUTOMATIC POULTRY MONITORING SYSTEM</h5>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,10 +27,10 @@
           <!-- <a class="nav-link disabled">Disabled</a> -->
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
-        <button class="btn btn-dark" type="submit">Logout</button>
-      </form>
+      <form action="{{ route('logout') }}" class="d-flex">
+      @csrf
+      <button class="btn btn-dark" type="submit">Logout</button>
+    </form>
     </div>
   </div>
 </nav>

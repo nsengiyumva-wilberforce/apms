@@ -22,7 +22,7 @@
       <!-- partial:partials/_sidebar.html -->
       @include('layouts.sidebar')
       <!-- partial -->
-      <div class="main-panel">
+      <div class="main-panel card card-body">
         @yield('content')
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
