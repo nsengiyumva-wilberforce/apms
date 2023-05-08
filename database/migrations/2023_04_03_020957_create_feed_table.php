@@ -15,8 +15,8 @@ class CreateFeedTable extends Migration
     {
         Schema::create('feed', function (Blueprint $table) {
             $table->id();
-            $table->string('reading');
-            $table->string('system_id');
+            $table->double('feedLevelReading');
+            $table->string('systemId');
             $table->timestamps();
         });
     }

@@ -227,91 +227,97 @@ function drawWaterBarChart() {
   }, 3600000);
 }
 
-function drawTempTable(){
+function drawTempTable() {
+    // Create a new DataTable object
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Date');
     data.addColumn('number', 'Temperature');
 
-    // Add your temperature readings to the data table
-    data.addRows([
-      ['2023-04-01', 20.5],
-      ['2023-04-02', 22.1],
-      ['2023-04-03', 23.8],
-      ['2023-04-04', 22.4],
-      ['2023-04-05', 20.7],
-      ['2023-04-06', 18.9],
-      ['2023-04-07', 21.3],
-      ['2023-04-08', 24.6],
-      ['2023-04-09', 23.2],
-      ['2023-04-10', 21.1],
-      ['2023-04-11', 19.8],
-      ['2023-04-12', 22.7],
-      ['2023-04-13', 24.1],
-      ['2023-04-14', 22.3],
-      ['2023-04-15', 20.9]
-    ]);
-
+    // Create a new Table object and bind it to the HTML element
     var table = new google.visualization.Table(document.getElementById('temp_table'));
 
-    table.draw(data, {
+    // Perform an AJAX request to retrieve data from the API endpoint
+    $.getJSON('http://127.0.0.1:8000/api/temperature', function(response) {
+      // Loop through the data and add it to the DataTable object
+      $.each(response, function(index, value) {
+        // Convert the ISO 8601 date string to a standard format
+        var date = new Date(value.created_at);
+        var formattedDate = date.toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          hour12: true
+        });
+
+        // Add the formatted date and temperature to the DataTable
+        data.addRow([formattedDate, value.temperatureReading]);
+      });
+
+      // Draw the table with the updated data
+      table.draw(data, {
         showRowNumber: true,
         width: '100%',
         height: '100%',
-    cssClassNames: {
-      'headerRow': 'google-chart-header',
-      'tableRow': 'google-chart-row',
-      'oddTableRow': 'google-chart-row',
-      'selectedTableRow': 'google-chart-selected-row',
-      'hoverTableRow': 'google-chart-hover-row',
-      'headerCell': 'google-chart-header-cell',
-      'tableCell': 'google-chart-cell',
-      'rowNumberCell': 'google-chart-row-number'
-    }
-  });
-}
+        cssClassNames: {
+          'headerRow': 'google-chart-header',
+          'tableRow': 'google-chart-row',
+          'oddTableRow': 'google-chart-row',
+          'selectedTableRow': 'google-chart-selected-row',
+          'hoverTableRow': 'google-chart-hover-row',
+          'headerCell': 'google-chart-header-cell',
+          'tableCell': 'google-chart-cell',
+          'rowNumberCell': 'google-chart-row-number'
+        }
+      });
+    });
+  }
 
-function drawWaterTable(){
+
+
+  function drawWaterTable(){
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Date');
-    data.addColumn('number', 'Water(ml)');
+    data.addColumn('number', 'Water Level(ml)');
 
-    // Add your temperature readings to the data table
-    data.addRows([
-      ['2023-04-01', 20.5],
-      ['2023-04-02', 22.1],
-      ['2023-04-03', 23.8],
-      ['2023-04-04', 22.4],
-      ['2023-04-05', 20.7],
-      ['2023-04-06', 18.9],
-      ['2023-04-07', 21.3],
-      ['2023-04-08', 24.6],
-      ['2023-04-09', 23.2],
-      ['2023-04-10', 21.1],
-      ['2023-04-11', 19.8],
-      ['2023-04-12', 22.7],
-      ['2023-04-13', 24.1],
-      ['2023-04-14', 22.3],
-      ['2023-04-15', 20.9]
-    ]);
+    // Perform an AJAX request to retrieve data from the API endpoint
+    $.getJSON('http://127.0.0.1:8000/api/water', function(response) {
+        // Loop through the data and add it to the DataTable object
+        $.each(response, function(index, value) {
+            var date = new Date(value.created_at);
+            var formattedDate = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            data.addRow([formattedDate, value.waterLevelReading]);
 
-    var table = new google.visualization.Table(document.getElementById('water_table'));
+        });
 
-    table.draw(data, {
-        showRowNumber: true,
-        width: '100%',
-        height: '100%',
-    cssClassNames: {
-      'headerRow': 'google-chart-header',
-      'tableRow': 'google-chart-row',
-      'oddTableRow': 'google-chart-row',
-      'selectedTableRow': 'google-chart-selected-row',
-      'hoverTableRow': 'google-chart-hover-row',
-      'headerCell': 'google-chart-header-cell',
-      'tableCell': 'google-chart-cell',
-      'rowNumberCell': 'google-chart-row-number'
-    }
-  });
+        // Create a new Table object and bind it to the HTML element
+        var table = new google.visualization.Table(document.getElementById('water_table'));
+
+        // Draw the table with the updated data
+        table.draw(data, {
+            showRowNumber: true,
+            width: '100%',
+            height: '100%',
+            cssClassNames: {
+                'headerRow': 'google-chart-header',
+                'tableRow': 'google-chart-row',
+                'oddTableRow': 'google-chart-row',
+                'selectedTableRow': 'google-chart-selected-row',
+                'hoverTableRow': 'google-chart-hover-row',
+                'headerCell': 'google-chart-header-cell',
+                'tableCell': 'google-chart-cell',
+                'rowNumberCell': 'google-chart-row-number'
+            }
+        });
+    });
 }
+
 
 function drawAudioTable()
 {
@@ -357,49 +363,50 @@ function drawAudioTable()
   });
 }
 
-function drawFeedTable()
-{
+function drawFeedTable() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Date');
     data.addColumn('number', 'Feed Amount(Kgs)');
 
-    // Add your temperature readings to the data table
-    data.addRows([
-      ['2023-04-01', 20.5],
-      ['2023-04-02', 22.1],
-      ['2023-04-03', 23.8],
-      ['2023-04-04', 22.4],
-      ['2023-04-05', 20.7],
-      ['2023-04-06', 18.9],
-      ['2023-04-07', 21.3],
-      ['2023-04-08', 24.6],
-      ['2023-04-09', 23.2],
-      ['2023-04-10', 21.1],
-      ['2023-04-11', 19.8],
-      ['2023-04-12', 22.7],
-      ['2023-04-13', 24.1],
-      ['2023-04-14', 22.3],
-      ['2023-04-15', 20.9]
-    ]);
+    // Perform an AJAX request to retrieve data from the API endpoint
+    $.getJSON('http://127.0.0.1:8000/api/feed', function(response) {
+      // Loop through the data and add it to the DataTable object
+      $.each(response, function(index, value) {
+        var date = new Date(value.created_at);
+        var formattedDate = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true
+        });
+        data.addRow([formattedDate, value.feedLevelReading]);
+      });
 
-    var table = new google.visualization.Table(document.getElementById('feed_table'));
+      // Create a new Table object and bind it to the HTML element
+      var table = new google.visualization.Table(document.getElementById('feed_table'));
 
-    table.draw(data, {
+      // Draw the table with the updated data
+      table.draw(data, {
         showRowNumber: true,
         width: '100%',
         height: '100%',
-    cssClassNames: {
-      'headerRow': 'google-chart-header',
-      'tableRow': 'google-chart-row',
-      'oddTableRow': 'google-chart-row',
-      'selectedTableRow': 'google-chart-selected-row',
-      'hoverTableRow': 'google-chart-hover-row',
-      'headerCell': 'google-chart-header-cell',
-      'tableCell': 'google-chart-cell',
-      'rowNumberCell': 'google-chart-row-number'
-    }
-  });
-}
+        cssClassNames: {
+          'headerRow': 'google-chart-header',
+          'tableRow': 'google-chart-row',
+          'oddTableRow': 'google-chart-row',
+          'selectedTableRow': 'google-chart-selected-row',
+          'hoverTableRow': 'google-chart-hover-row',
+          'headerCell': 'google-chart-header-cell',
+          'tableCell': 'google-chart-cell',
+          'rowNumberCell': 'google-chart-row-number'
+        }
+      });
+    });
+  }
+
 
 $(document).ready(function () {
     $('#example').DataTable();

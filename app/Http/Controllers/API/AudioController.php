@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Audio;
+use getID3;
 
 class AudioController extends Controller
 {
@@ -39,19 +40,29 @@ class AudioController extends Controller
     public function store(Request $request)
     {
         $audios = new Audio();
+        $getID3 = new getID3;
         $request -> validate([
             'audioFile'=>'required',
             'audioResult'=>'required'
         ]);
         $filename = "";
         if($request->hasFile('audioFile')){
-            $newAudioName = time() . '-' . $request->name . '.' . $request->audio->extension();
-        $request->audio->move(public_path('audios'), $newAudioName);
+            $newAudioName = $request->audioFile->getClientOriginalName();
+            $request->audioFile->move(public_path('audios'), $newAudioName);
+            // Analyze the audio file to get its duration
+            $fileInfo = $getID3->analyze(public_path('audios/' . $newAudioName));
+            $filepath = $fileInfo['filepath'];
+            $size = $fileInfo['filesize'];
+            $duration = $fileInfo['playtime_seconds'];
         } else {
             $filename = Null;
         }
         $audios->audioResult = $request->audioResult;
-        $audios->audio = $newAudioName;
+        $audios->audioFile = $newAudioName;
+        $audios->duration = $duration;
+        $audios->size = $size;
+        $audios->filepath = $filepath;
+        $audios->systemId = $request->systemId;
         $result = $audios->save();
 
         if ($result) {

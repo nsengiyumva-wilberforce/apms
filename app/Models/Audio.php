@@ -27,6 +27,6 @@ class Audio extends Model
      *
      * @var array
      */
-    // protected $fillable = ['assignment_title', 'characters', 'start_time', 'end_time'];
+    protected $fillable = ['audioFile', 'audioResult', 'systemId', 'duration', 'size', 'filepath'];
 
 }

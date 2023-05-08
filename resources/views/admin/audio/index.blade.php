@@ -3,6 +3,7 @@
     <div class="content-wrapper shadow card round">
         <div class="container-fluid">
             <div class="row">
+                @foreach ($audios as $audio)
                 <div class="col-3">
                     <div class="card text-start border border-success" style="width: 18rem;">
                         <div class="card-body">
@@ -10,75 +11,24 @@
                                 <i class="mdi mdi-audiobook menu-icon text-success" style="font-size: 120px"></i>
                             </h1>
 
-                            <p class="fs-5"><span class="fw-bolder pe-2">Name:</span>A0000001.wav</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Duration:</span>3:00</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Size:</span>2MB</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Date of Creation:</span>12/05/2024</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Analysis Result:</span>Cough</p>
+                            <p class="fs-5"><span class="fw-bolder pe-2">Name:</span>{{ $audio->audioFile }}</p>
+                            <p class="fs-5"><span class="fw-bolder pe-2">Duration:</span>{{ $audio->duration }}</p>
+                            <p class="fs-5"><span class="fw-bolder pe-2">Size:</span>{{ $audio->size }}KB</p>
+                            <p class="fs-5"><span class="fw-bolder pe-2">Date of Creation:</span> {{ $audio->created_at }}</p>
+                            <p class="fs-5"><span class="fw-bolder pe-2">Analysis Result:</span>{{ $audio->audioResult }}</p>
+                            <div class="audio_controls d-flex justify-content-between">
+                                <h1 class="play-btn" data-src="{{url('/audios//'.$audio->audioFile)}}">
+                                    <i class="mdi mdi-play-circle menu-icon text-dark"></i>
+                                </h1>
+                                <h1 class="ps-5 ms-5 stop-btn d-none" data-src="{{url('/audios//'.$audio->audioFile)}}">
+                                    <i class="mdi mdi-stop-circle menu-icon text-dark"></i>
+                                </h1>
+                            </div>
 
-                            <h1 class="ps-5 ms-5">
-                                <i class="mdi mdi-play-circle menu-icon text-dark"></i>
-                            </h1>
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card text-start border border-success" style="width: 18rem;">
-                        <div class="card-body">
-                            <h1 class="ps-3 ms-6">
-                                <i class="mdi mdi-audiobook menu-icon text-success" style="font-size: 120px"></i>
-                            </h1>
-
-                            <p class="fs-5"><span class="fw-bolder pe-2">Name:</span>A0000001.wav</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Duration:</span>3:00</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Size:</span>2MB</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Date of Creation:</span>12/05/2024</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Analysis Result:</span>Cough</p>
-
-                            <h1 class="ps-5 ms-5">
-                                <i class="mdi mdi-play-circle menu-icon text-dark"></i>
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card text-start border border-success" style="width: 18rem;">
-                        <div class="card-body">
-                            <h1 class="ps-3 ms-6">
-                                <i class="mdi mdi-audiobook menu-icon text-success" style="font-size: 120px"></i>
-                            </h1>
-
-                            <p class="fs-5"><span class="fw-bolder pe-2">Name:</span>A0000001.wav</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Duration:</span>3:00</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Size:</span>2MB</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Date of Creation:</span>12/05/2024</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Analysis Result:</span>Cough</p>
-
-                            <h1 class="ps-5 ms-5">
-                                <i class="mdi mdi-play-circle menu-icon text-dark"></i>
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card text-start border border-success" style="width: 18rem;">
-                        <div class="card-body">
-                            <h1 class="ps-3 ms-6">
-                                <i class="mdi mdi-audiobook menu-icon text-success" style="font-size: 120px"></i>
-                            </h1>
-
-                            <p class="fs-5"><span class="fw-bolder pe-2">Name:</span>A0000001.wav</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Duration:</span>3:00</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Size:</span>2MB</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Date of Creation:</span>12/05/2024</p>
-                            <p class="fs-5"><span class="fw-bolder pe-2">Analysis Result:</span>Cough</p>
-
-                            <h1 class="ps-5 ms-5">
-                                <i class="mdi mdi-play-circle menu-icon text-dark"></i>
-                            </h1>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
                 <div class="containter summeries_section mt-5">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
