@@ -240,7 +240,7 @@ function drawTempTable() {
     $.getJSON('https://apms-production.up.railway.app/api/temperature', function(response) {
       // Loop through the data and add it to the DataTable object
       $.each(response, function(index, value) {
-        // Convert the ISO 8601 date string to a standard 
+        // Convert the ISO 8601 date string to a standard
         var date = new Date(value.created_at);
         var formattedDate = date.toLocaleString('en-US', {
           year: 'numeric',
@@ -274,8 +274,6 @@ function drawTempTable() {
       });
     });
   }
-
-
 
   function drawWaterTable(){
     var data = new google.visualization.DataTable();
@@ -382,7 +380,7 @@ function drawFeedTable() {
             second: 'numeric',
             hour12: true
         });
-        data.addRow([formattedDate, value.feedLevelReading]);
+        data.addRow([formattedDate, value.reading]);
       });
 
       // Create a new Table object and bind it to the HTML element
@@ -406,7 +404,6 @@ function drawFeedTable() {
       });
     });
   }
-
 
 $(document).ready(function () {
     $('#example').DataTable();

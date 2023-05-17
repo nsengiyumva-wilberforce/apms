@@ -39,7 +39,7 @@ class FeedController extends Controller
     public function store(Request $request)
     {
         $feed = new Feed();
-        $feed->feedLevelReading = $request->feedLevelReading;
+        $feed->feedLevelReading = $request->reading;
         $feed->systemId = $request->systemId;
         $feed->save();
         return response()->json(['success'=>true]);
