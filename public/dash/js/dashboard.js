@@ -237,7 +237,7 @@ function drawTempTable() {
     var table = new google.visualization.Table(document.getElementById('temp_table'));
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON('https://apms-production.up.railway.app/api/temperature/', function(response) {
+    $.getJSON('https://apms-production.up.railway.app/api/temperature', function(response) {
       // Loop through the data and add it to the DataTable object
       $.each(response, function(index, value) {
         // Convert the ISO 8601 date string to a standard format
@@ -283,7 +283,7 @@ function drawTempTable() {
     data.addColumn('number', 'Water Level(ml)');
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON('https://apms-production.up.railway.app/api/water/', function(response) {
+    $.getJSON('http://127.0.0.1:8000/api/water', function(response) {
         // Loop through the data and add it to the DataTable object
         $.each(response, function(index, value) {
             var date = new Date(value.created_at);
@@ -369,7 +369,7 @@ function drawFeedTable() {
     data.addColumn('number', 'Feed Amount(Kgs)');
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON('https://apms-production.up.railway.app/api/feed/', function(response) {
+    $.getJSON('http://127.0.0.1:8000/api/feed', function(response) {
       // Loop through the data and add it to the DataTable object
       $.each(response, function(index, value) {
         var date = new Date(value.created_at);
