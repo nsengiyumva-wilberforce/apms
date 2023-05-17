@@ -27,6 +27,6 @@ class Feed extends Model
      *
      * @var array
      */
-    protected $fillable = ['reading', 'systemId'];
+    protected $fillable = ['feedLevelReading', 'systemId'];
 
 }
