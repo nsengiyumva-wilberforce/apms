@@ -1,11 +1,3 @@
-<style>
-    a:link,
-    a:visited,
-    a:hover,
-    a:active {
-        text-decoration: none;
-    }
-</style>
 @extends('layouts.app')
 @section('content')
     <div class="content-wrapper shadow card round">
@@ -23,7 +15,7 @@
             </div>
             <div class="row mb-5">
                 <div class="col-md-6 col-lg-3 col-xlg-3">
-                    <a href="/admin/sensor">
+                    <a href="/admin/sensor" class="text-decoration-none">
                         <div class="card card-hover">
                             <div class="box bg-info text-center shadow rounded">
                                 <h1 class="font-light text-light">
@@ -38,7 +30,7 @@
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xlg-3">
-                    <a href="/admin/sensor">
+                    <a href="/admin/sensor" class="text-decoration-none">
                         <div class="card card-hover">
                             <div class="box bg-success text-center shadow rounded">
                                 <h1 class="font-light text-light">
@@ -53,7 +45,7 @@
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3 col-xlg-3">
-                    <a href="/admin/sensor">
+                    <a href="/admin/sensor" class="text-decoration-none">
                         <div class="card card-hover">
                             <div class="box bg-danger text-center shadow rounded">
                                 <h1 class="font-light text-light">
