@@ -44,9 +44,11 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-realtime" role="tabpanel"
                         aria-labelledby="pills-realtime-tab">
-                        realtime</div>
-                    <div class="tab-pane fade" id="pills-today" role="tabpanel" aria-labelledby="pills-today-tab">
-                        today</div>
+                        <div id="chart_div"></div>
+                    </div>
+                    <div class="tab-pane show fade" id="pills-today" role="tabpanel" aria-labelledby="pills-today-tab">
+                        <div id="daily_div"></div>
+                    </div>
                     <div class="tab-pane fade" id="pills-week" role="tabpanel" aria-labelledby="pills-week-tab">
                         week</div>
                     <div class="tab-pane fade" id="pills-custom" role="tabpanel" aria-labelledby="pills-custom-tab">
