@@ -4,10 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\CurrentTemperature;
 
-use App\Models\Temperature;
-
-class TemperatureController extends Controller
+class CurrentTemperatureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +16,7 @@ class TemperatureController extends Controller
     public function index()
     {
         //get all temperature data
-        $temperature = Temperature::all();
+        $temperature = CurrentTemperature::all();
         return response()->json($temperature);
     }
 
@@ -26,7 +25,7 @@ class TemperatureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
         //
     }
@@ -38,9 +37,9 @@ class TemperatureController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+{
         //add new temperature data
-        $temperature = new Temperature();
+        $temperature = new CurrentTemperature();
         $temperature->temperatureReading = $request->temperatureReading;
         $temperature->systemId = $request->systemId;
         $temperature->save();
@@ -78,7 +77,11 @@ class TemperatureController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $requestData = $request->all();
+
+        $temperature = CurrentTemperature::updateOrCreate(['id' => $id], $requestData);
+    
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -90,10 +93,5 @@ class TemperatureController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function createCurrentTemperature()
-    {
-        
     }
 }
