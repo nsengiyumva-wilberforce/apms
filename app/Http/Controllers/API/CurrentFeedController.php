@@ -42,7 +42,11 @@ class CurrentFeedController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $feed = new CurrentFeed();
+        $feed->feedLevelReading = $request->feedLevelReading;
+        $feed->systemId = $request->systemId;
+        $feed->save();
+        return response()->json(['success'=>true]);
     }
 
     /**
