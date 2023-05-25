@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\CurrentFeed;
+use App\Models\TemperatureSwitch;
 
-class CurrentFeedController extends Controller
+class TemperatureSwitchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class CurrentFeedController extends Controller
      */
     public function index()
     {
-        //get all feeds
-        $feeds = CurrentFeed::all();
-        return response()->json($feeds);
+        //get sensor status
+        $status = TemperatureSwitch::all();
+        return response()->json($status);
     }
 
     /**
@@ -38,10 +38,12 @@ class CurrentFeedController extends Controller
      */
     public function store(Request $request)
     {
-        $feed = new CurrentFeed();
-        $feed->feedLevelReading = $request->feedLevelReading;
-        $feed->systemId = $request->systemId;
-        $feed->save();
+        $sensor = new TemperatureSwitch();
+        $sensor->sensorId = $request->sensorId;
+        $sensor->sensorName = $request->sensorName;
+        $sensor->sensorStatus = $request->sensorStatus;
+        $sensor->systemId = $request->systemId;
+        $sensor->save();
         return response()->json(['success'=>true]);
     }
 
@@ -78,7 +80,7 @@ class CurrentFeedController extends Controller
     {
         $requestData = $request->all();
 
-        $feed = CurrentFeed::updateOrCreate(['id' => $id], $requestData);
+        $feed = TemperatureSwitch::updateOrCreate(['id' => $id], $requestData);
 
         return response()->json(['success' => true]);
     }

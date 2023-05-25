@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSecurityTable extends Migration
+class CreateFeedSwitchTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateSecurityTable extends Migration
      */
     public function up()
     {
-        Schema::create('security', function (Blueprint $table) {
+        Schema::create('feed_switch', function (Blueprint $table) {
             $table->id();
-            $table->string('reading');
+            $table->string('sensorId');
+            $table->string('sensorName');
+            $table->boolean('sensorStatus');
             $table->string('systemId');
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ class CreateSecurityTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('security');
+        Schema::dropIfExists('feed_switch');
     }
 }

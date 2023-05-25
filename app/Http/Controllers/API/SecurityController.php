@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\CurrentFeed;
+use App\Models\Security;
 
-class CurrentFeedController extends Controller
+class SecurityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class CurrentFeedController extends Controller
      */
     public function index()
     {
-        //get all feeds
-        $feeds = CurrentFeed::all();
-        return response()->json($feeds);
+        //get all audio levels
+        $audio = Security::all();
+        return response()->json($audio);
     }
 
     /**
@@ -38,11 +38,23 @@ class CurrentFeedController extends Controller
      */
     public function store(Request $request)
     {
-        $feed = new CurrentFeed();
-        $feed->feedLevelReading = $request->feedLevelReading;
-        $feed->systemId = $request->systemId;
-        $feed->save();
-        return response()->json(['success'=>true]);
+        $security = new Security();
+        $newImageName = "";
+        if($request->hasFile('reading')){
+            $newImageName = $request->reading->getClientOriginalName();
+            $request->reading->move(public_path('images'), $newImageName);
+        } else {
+            $newImageName = Null;
+        }
+        $security->reading = $newImageName;
+        $security->systemId = $request->systemId;
+        $result = $security->save();
+
+        if ($result) {
+            return response()->json(['success'=>true]);
+        } else {
+            return response()->json(['success'=>false]);
+        }
     }
 
     /**
@@ -76,11 +88,7 @@ class CurrentFeedController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $requestData = $request->all();
-
-        $feed = CurrentFeed::updateOrCreate(['id' => $id], $requestData);
-
-        return response()->json(['success' => true]);
+        //
     }
 
     /**

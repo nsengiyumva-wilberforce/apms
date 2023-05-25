@@ -4,9 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\CurrentFeed;
 
-class CurrentFeedController extends Controller
+class SensorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,7 @@ class CurrentFeedController extends Controller
      */
     public function index()
     {
-        //get all feeds
-        $feeds = CurrentFeed::all();
-        return response()->json($feeds);
+        //get sensor status
     }
 
     /**
@@ -38,11 +35,7 @@ class CurrentFeedController extends Controller
      */
     public function store(Request $request)
     {
-        $feed = new CurrentFeed();
-        $feed->feedLevelReading = $request->feedLevelReading;
-        $feed->systemId = $request->systemId;
-        $feed->save();
-        return response()->json(['success'=>true]);
+        //
     }
 
     /**
@@ -76,11 +69,7 @@ class CurrentFeedController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $requestData = $request->all();
-
-        $feed = CurrentFeed::updateOrCreate(['id' => $id], $requestData);
-
-        return response()->json(['success' => true]);
+        //
     }
 
     /**

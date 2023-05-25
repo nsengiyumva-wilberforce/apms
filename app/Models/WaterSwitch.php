@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Security extends Model
+class WaterSwitch extends Model
 {
-        /**
+                    /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'security';
+    protected $table = 'water_switch';
 
     /**
     * The database primary key value.
@@ -27,6 +27,5 @@ class Security extends Model
      *
      * @var array
      */
-    protected $fillable = ['reading', 'systemId'];
-
+    protected $fillable = ['sensorId', 'sensorName', 'sensorStatus', 'systemId'];
 }
