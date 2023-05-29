@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Security;
 
 class SecurityController extends Controller
 {
@@ -13,7 +14,9 @@ class SecurityController extends Controller
      */
     public function index()
     {
-        return view('admin.security.index');
+        //get all audio levels
+        $security = Security::all();
+        return view('admin.security.index', compact('security'));
     }
 
     /**
