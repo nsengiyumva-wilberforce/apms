@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -11,9 +12,20 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.users.index');
+        $keyword = $request->get('search');
+        $perPage = 25;
+
+        if (!empty($keyword)) {
+            $users = User::where('name', 'LIKE', "%$keyword%")
+                ->orWhere('email', 'LIKE', "%$keyword%")
+                ->latest()->paginate($perPage);
+        } else {
+            $users = User::latest()->paginate($perPage);
+        }
+
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -23,7 +35,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -34,7 +46,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $requestData = $request->all();
+        User::create($requestData);
+
+        return redirect('admin/user')->with('flash_message', 'User added!');
     }
 
     /**
@@ -45,7 +60,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $user = User::findOrFail($id);
+
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -56,7 +74,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -68,7 +88,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $requestData = $request->all();
+
+        $user = User::findOrFail($id);
+        $user->update($requestData);
+
+        return redirect('admin/user')->with('flash_message', 'User updated!');
     }
 
     /**

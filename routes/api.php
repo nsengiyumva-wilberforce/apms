@@ -27,5 +27,3 @@ Route::resource('security', SecurityController::class);
 Route::resource('switch-temperature', TemperatureSwitchController::class);
 Route::resource('switch-feed', FeedSwitchController::class);
 Route::resource('switch-water', WaterSwitchController::class);
-
-//security

@@ -12,7 +12,7 @@
         font-weight: bold;
     }
     .button2{
-        background-color: blue;
+        background-color: lightseagreen;
         color: white;
         height: 34px;
         width: 75px;
@@ -47,15 +47,15 @@
     <div class="row">
       <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header bg-primary text-light">Create New assignment</div>
+                    <div class="card-header bg-success text-light">Create New assignment</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/assignment') }}" title="Back"><button class="button2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/admin/user') }}" title="Back"><button class="button2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
-                        <form method="POST" action="{{ url('/admin/assignment') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('/admin/user') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            @include ('admin.assignments.form', ['formMode' => 'create'])
+                            @include ('admin.users.form', ['formMode' => 'create'])
 
                         </form>
 

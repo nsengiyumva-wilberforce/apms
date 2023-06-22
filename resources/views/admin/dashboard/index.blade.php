@@ -57,8 +57,9 @@
                                 <h6 class="text-white">Inactive Sensors</h6>
                             </div>
                         </div>
+                    </a>
                 </div>
-                </a>
+
             </div>
             <div class="row">
                 <div class="col-md-6 col-lg-3 col-xlg-3">
@@ -100,10 +101,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row d-flex flex-row">
                 <div class="col-md-6 col-lg-6 col-xlg-6 col-sm-12 m-3" id="temp_line_chart"
-                    style="width: 48%; height: 600px;border-radius: 10px"></div>
+                    style="width: 1000px; height: 600px;border-radius: 10px"></div>
                 <div class="col-md-6 col-lg-6 col-xlg-6 col-sm-12 m-3" id="water_bar_chart"
-                    style="width: 48%; height: 600px;border-radius: 10px">
+                    style="width: 1000px; height: 600px;border-radius: 10px">
                 </div>
             </div>
         </div>

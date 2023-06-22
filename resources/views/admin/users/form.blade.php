@@ -12,20 +12,16 @@
 </style>
 
 <div class="form-group">
-    <label for="assignment_title" class="control-label">{{ 'Assignment Title' }}</label>
-    <input class="form-control" name="assignment_title" type="text" id="assignment_title" value="{{ isset($assignment->assignment_title) ? $assignment->assignment_title : ''}}" >
+    <label for="name" class="control-label">{{ 'Name' }}</label>
+    <input class="form-control" name="name" type="text" id="name" value="{{ isset($user->name) ? $user->name : ''}}" >
 </div>
 <div class="form-group">
-    <label for="characters" class="control-label">{{ 'Characters' }}</label>
-    <input class="form-control" name="characters" size="8" type="text" id="characters" value="{{ isset($assignment->characters) ? $assignment->characters : ''}}" >
+    <label for="username" class="control-label">{{ 'Username' }}</label>
+    <input class="form-control" name="email" size="60" type="text" id="email" value="{{ isset($user->email) ? $user->email : ''}}" >
 </div>
 <div class="form-group">
-    <label for="start_time" class="control-label">{{ 'Start Time' }}</label>
-    <input class="form-control" name="start_time" type="date" id="start_time" value="{{ isset($assignment->start_time) ? $assignment->start_time : ''}}" >
-</div>
-<div class="form-group">
-    <label for="end_time" class="control-label">{{ 'End Time' }}</label>
-    <input class="form-control" name="end_time" type="date" id="end_time" value="{{ isset($assignment->end_time) ? $assignment->end_time : ''}}" >
+    <label for="password" class="control-label">{{ 'Password' }}</label>
+    <input class="form-control" name="password" type="text" id="password" value="{{ isset($user->password) ? $user->password : ''}}" >
 </div>
 <div class="form-group">
     <input class="button4" type="submit" value="{{ $formMode === 'edit' ? 'Update' : 'Create' }}">

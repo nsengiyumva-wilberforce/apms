@@ -18,6 +18,8 @@
 <!-- Custom js for this page-->
 <script src="{{ asset('dash/js/dashboard.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ asset('dash/js/audio.js') }}"></script>
 <script src="{{ asset('dash/js/Chart.roundedBarCharts.js') }}"></script>
 <!-- End custom js for this page-->

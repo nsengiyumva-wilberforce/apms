@@ -150,7 +150,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title fs-1">Proximity sensor</h5>
+                            <h5 class="card-title fs-1">Ultrasonic Sensor</h5>
                             <p class="card-text fs-5">
                                 Senses an object approaching the poultry house
                             </p>
@@ -194,7 +194,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-5 text-center">
+            {{-- <div class="row mt-5 text-center">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -241,7 +241,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

@@ -1,6 +1,8 @@
+
 google.charts.load("current", {
     packages: ["gauge", "corechart", "table", "charteditor", "line"],
 });
+
 google.charts.setOnLoadCallback(drawFeedChart);
 google.charts.setOnLoadCallback(drawTemperatureChart);
 google.charts.setOnLoadCallback(drawWaterChart);
@@ -11,12 +13,25 @@ google.charts.setOnLoadCallback(drawWaterTable);
 google.charts.setOnLoadCallback(drawAudioTable);
 google.charts.setOnLoadCallback(drawFeedTable);
 google.charts.setOnLoadCallback(drawLiveTempChart);
+google.charts.setOnLoadCallback(drawLiveFeedChart);
+google.charts.setOnLoadCallback(drawLiveWaterChart);
 google.charts.setOnLoadCallback(drawDailyTempChart);
+google.charts.setOnLoadCallback(drawDailyFeedChart);
+google.charts.setOnLoadCallback(drawDailyWaterChart);
+google.charts.setOnLoadCallback(drawWeeklyTemperature);
+google.charts.setOnLoadCallback(drawWeeklyFeed);
+google.charts.setOnLoadCallback(drawWeeklyWater);
+google.charts.setOnLoadCallback(temperatureWithWater);
+google.charts.setOnLoadCallback(temperatureWeight);
+google.charts.setOnLoadCallback(feedWithTemperature);
+google.charts.setOnLoadCallback(feedWithWater);
+
+
 
 function drawFeedChart() {
     var data = google.visualization.arrayToDataTable([
         ["Label", "Value"],
-        ["Feed", 80],
+        ["Feed", 0],
     ]);
 
     var options = {
@@ -38,17 +53,15 @@ function drawFeedChart() {
     chart.draw(data, options);
 
     setInterval(function () {
-        data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-        chart.draw(data, options);
-    }, 13000);
-    setInterval(function () {
-        data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-        chart.draw(data, options);
-    }, 5000);
-    setInterval(function () {
-        data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-        chart.draw(data, options);
-    }, 26000);
+        fetch("http://127.0.0.1:8000/api/feed/current/")
+            .then((response) => response.json())
+            .then(
+                (json) => {
+                    console.log(json[0].feedLevelReading)
+                    data.setValue(0, 1, json[0].feedLevelReading);
+                    chart.draw(data, options);
+                });
+    }, 3000);
 }
 
 function drawTemperatureChart() {
@@ -75,17 +88,15 @@ function drawTemperatureChart() {
     chart.draw(data, options);
 
     setInterval(function () {
-        data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-        chart.draw(data, options);
-    }, 13000);
-    setInterval(function () {
-        data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-        chart.draw(data, options);
-    }, 5000);
-    setInterval(function () {
-        data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-        chart.draw(data, options);
-    }, 26000);
+        fetch("http://127.0.0.1:8000/api/temperature/current/")
+            .then((response) => response.json())
+            .then(
+                (json) => {
+                    console.log(json[0].temperatureReading)
+                    data.setValue(0, 1, json[0].temperatureReading);
+                    chart.draw(data, options);
+                });
+    }, 3000);
 }
 
 function drawWaterChart() {
@@ -100,7 +111,7 @@ function drawWaterChart() {
         redFrom: 90,
         redTo: 100,
         yellowFrom: 75,
-        yellowTo: 90,
+        yellowTo: 0,
         minorTicks: 5,
         majorTicks: ["0", "20", "40", "60", "80", "100"],
     };
@@ -112,18 +123,17 @@ function drawWaterChart() {
     chart.draw(data, options);
 
     setInterval(function () {
-        data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-        chart.draw(data, options);
-    }, 13000);
-    setInterval(function () {
-        data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-        chart.draw(data, options);
-    }, 5000);
-    setInterval(function () {
-        data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-        chart.draw(data, options);
-    }, 26000);
+        fetch("http://127.0.0.1:8000/api/water/current/")
+            .then((response) => response.json())
+            .then(
+                (json) => {
+                    console.log(json[0].waterLevelReading)
+                    data.setValue(0, 1, json[0].waterLevelReading);
+                    chart.draw(data, options);
+                });
+    }, 3000);
 }
+
 function drawTempLine() {
     // Define the data for the line graph
     var data = google.visualization.arrayToDataTable([
@@ -257,7 +267,7 @@ function drawTempTable() {
     );
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON("http://127.0.0.1:8000/api/temperature", function (response) {
+    $.getJSON("https://apms-production.up.railway.app/api/temperature", function (response) {
         // Loop through the data and add it to the DataTable object
         $.each(response, function (index, value) {
             // Convert the ISO 8601 date string to a standard format
@@ -301,7 +311,7 @@ function drawWaterTable() {
     data.addColumn("number", "Water Level(ml)");
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON("http://127.0.0.1:8000/api/water", function (response) {
+    $.getJSON("https://apms-production.up.railway.app/api/water", function (response) {
         // Loop through the data and add it to the DataTable object
         $.each(response, function (index, value) {
             var date = new Date(value.created_at);
@@ -388,7 +398,7 @@ function drawFeedTable() {
     data.addColumn("number", "Feed Amount(Kgs)");
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON("http://127.0.0.1:8000/api/feed", function (response) {
+    $.getJSON("https://apms-production.up.railway.app/api/feed", function (response) {
         // Loop through the data and add it to the DataTable object
         $.each(response, function (index, value) {
             var date = new Date(value.created_at);
@@ -428,69 +438,629 @@ function drawFeedTable() {
     });
 }
 
-//live charts
 function drawLiveTempChart() {
-    index = 0;
-    maxDatas = 50;
-    // create data object with default value
+    // Create data object with default value
     let data = google.visualization.arrayToDataTable([
-        ["Time", "Temperature", "RAM"],
-        [0, 0, 0],
+        ["Time", "Temperature"],
+        [0, 0],
     ]);
 
-    // create options object with titles, colors, etc.
+    // Create options object with titles, colors, etc.
     let options = {
-        title: "Temperature",
+        title: "Temperature Status",
         hAxis: {
             textPosition: "none",
         },
         vAxis: {
-            title: "Usage",
+            title: "Temperature",
         },
     };
-    // draw chart on load
+
+    // Draw chart on load
     let chart = new google.visualization.LineChart(
         document.getElementById("chart_div")
     );
     chart.draw(data, options);
 
-    // update the chart every 100 milliseconds (or any desired interval)
+    let index = 0;
+    let maxDatas = 50;
+
+    // Update the chart every 100 milliseconds (or any desired interval)
     setInterval(function () {
-        // instead of this random, you can make an AJAX call for the current CPU usage or whatever data you want to display
-        let randomCPU = Math.random() * 20;
-        let randomRAM = Math.random() * 50 + 20;
+        // Instead of this random value, you can replace it with your actual CPU temperature data
+        let randomTemperature = Math.random() * 80; // Replace this with actual CPU temperature value
 
         if (data.getNumberOfRows() > maxDatas) {
             data.removeRows(0, data.getNumberOfRows() - maxDatas);
         }
 
-        data.addRow([index, randomCPU, randomRAM]);
+        data.addRow([index, randomTemperature]);
         chart.draw(data, options);
 
         index++;
     }, 100);
 }
 
-function drawDailyTempChart()
-{
-    var data = [
-        ['Time', 'Temperature'],
-        ['12:00 AM', 20],
-        ['12:30 AM', 21],
-        ['1:00 AM', 22],
-        ['1:30 AM', 23],
-      ];
+function drawLiveWaterChart() {
+    // Create data object with default value
+    let data = google.visualization.arrayToDataTable([
+        ["Time", "Water Level"],
+        [0, 0],
+    ]);
 
-      var chartData = google.visualization.arrayToDataTable(data);
+    // Create options object with titles, colors, etc.
+    let options = {
+        title: "Water Level",
+        hAxis: {
+            textPosition: "none",
+        },
+        vAxis: {
+            title: "Water Consumption Rate",
+        },
+    };
 
-      var options = {
-        title: 'Temperature Last 12 hours',
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        hAxis: { title: 'Time' },
-        vAxis: { title: 'Temperature' }
-      };
+    // Draw chart on load
+    let chart = new google.visualization.LineChart(
+        document.getElementById("live_water_chart")
+    );
+    chart.draw(data, options);
 
-      var chart = new google.visualization.LineChart(document.getElementById('daily_div'));
-      chart.draw(chartData, options);
+    let index = 0;
+    let maxDatas = 50;
+
+    // Update the chart every 100 milliseconds (or any desired interval)
+    setInterval(function () {
+        // Instead of this random value, you can replace it with your actual CPU temperature data
+        let randomWater = Math.random() * 80; // Replace this with actual CPU Water value
+
+        if (data.getNumberOfRows() > maxDatas) {
+            data.removeRows(0, data.getNumberOfRows() - maxDatas);
+        }
+
+        data.addRow([index, randomWater]);
+        chart.draw(data, options);
+
+        index++;
+    }, 100);
+}
+
+function drawLiveFeedChart() {
+    // Create data object with default value
+    let data = google.visualization.arrayToDataTable([
+        ["Time", "Feed"],
+        [0, 0],
+    ]);
+
+    // Create options object with titles, colors, etc.
+    let options = {
+        title: "Feeding Status",
+        hAxis: {
+            textPosition: "none",
+        },
+        vAxis: {
+            title: "Feed Level",
+        },
+    };
+
+    // Draw chart on load
+    let chart = new google.visualization.LineChart(
+        document.getElementById("live_feed_chart")
+    );
+    chart.draw(data, options);
+
+    let index = 0;
+    let maxDatas = 50;
+
+    // Update the chart every 100 milliseconds (or any desired interval)
+    setInterval(function () {
+        // Instead of this random value, you can replace it with your actual CPU temperature data
+        let randomTemperature = Math.random() * 80; // Replace this with actual CPU temperature value
+
+        if (data.getNumberOfRows() > maxDatas) {
+            data.removeRows(0, data.getNumberOfRows() - maxDatas);
+        }
+
+        data.addRow([index, randomTemperature]);
+        chart.draw(data, options);
+
+        index++;
+    }, 100);
+}
+
+function drawDailyTempChart() {
+    // Sample data
+    const temperatureData = [
+        { time: "09:00", temperature: 20 },
+        { time: "12:00", temperature: 24 },
+        { time: "15:00", temperature: 26 },
+        { time: "18:00", temperature: 22 },
+        { time: "21:00", temperature: 18 },
+    ];
+
+    // Extract labels and values from the data
+    const labels = temperatureData.map((data) => data.time);
+    const values = temperatureData.map((data) => data.temperature);
+
+    // Create the chart
+    const ctx = document
+        .getElementById("dailyTemperatureChart")
+        .getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Temperature",
+                    data: values,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...values) + 5,
+                },
+            },
+        },
+    });
+}
+
+function drawDailyWaterChart() {
+    // Sample data
+    const waterData = [
+        { time: "09:00", water: 20 },
+        { time: "12:00", water: 24 },
+        { time: "15:00", water: 26 },
+        { time: "18:00", water: 22 },
+        { time: "21:00", water: 18 },
+    ];
+
+    // Extract labels and values from the data
+    const labels = waterData.map((data) => data.time);
+    const values = waterData.map((data) => data.water);
+
+    // Create the chart
+    const ctx = document.getElementById("dailyWaterChart").getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Water Consumption",
+                    data: values,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...values) + 5,
+                },
+            },
+        },
+    });
+}
+
+function drawDailyFeedChart() {
+    // Sample data
+    const feedData = [
+        { time: "09:00", feed: 20 },
+        { time: "12:00", feed: 24 },
+        { time: "15:00", feed: 26 },
+        { time: "18:00", feed: 22 },
+        { time: "21:00", feed: 18 },
+    ];
+
+    // Extract labels and values from the data
+    const labels = feedData.map((data) => data.time);
+    const values = feedData.map((data) => data.feed);
+
+    // Create the chart
+    const ctx = document.getElementById("dailyFeedChart").getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "feed",
+                    data: values,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...values) + 5,
+                },
+            },
+        },
+    });
+}
+
+function drawWeeklyTemperature() {
+    // Sample data for a week
+    const temperatureData = [
+        { day: "Monday", temperature: 20 },
+        { day: "Tuesday", temperature: 24 },
+        { day: "Wednesday", temperature: 26 },
+        { day: "Thursday", temperature: 22 },
+        { day: "Friday", temperature: 18 },
+        { day: "Saturday", temperature: 22 },
+        { day: "Sunday", temperature: 25 },
+    ];
+
+    // Extract labels and values from the data
+    const labels = temperatureData.map((data) => data.day);
+    const values = temperatureData.map((data) => data.temperature);
+
+    // Create the chart
+    const ctx = document
+        .getElementById("weeklyTemperatureChart")
+        .getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Temperature",
+                    data: values,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...values) + 5,
+                },
+            },
+        },
+    });
+}
+
+function drawWeeklyWater() {
+    // Sample data for a week
+    const waterData = [
+        { day: "Monday", water: 20 },
+        { day: "Tuesday", water: 24 },
+        { day: "Wednesday", water: 26 },
+        { day: "Thursday", water: 22 },
+        { day: "Friday", water: 18 },
+        { day: "Saturday", water: 22 },
+        { day: "Sunday", water: 25 },
+    ];
+
+    // Extract labels and values from the data
+    const labels = waterData.map((data) => data.day);
+    const values = waterData.map((data) => data.water);
+
+    // Create the chart
+    const ctx = document.getElementById("weeklyWaterChart").getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "water",
+                    data: values,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...values) + 5,
+                },
+            },
+        },
+    });
+}
+
+function drawWeeklyFeed() {
+    // Sample data for a week
+    const feedData = [
+        { day: "Monday", feed: 20 },
+        { day: "Tuesday", feed: 24 },
+        { day: "Wednesday", feed: 26 },
+        { day: "Thursday", feed: 22 },
+        { day: "Friday", feed: 18 },
+        { day: "Saturday", feed: 22 },
+        { day: "Sunday", feed: 25 },
+    ];
+
+    // Extract labels and values from the data
+    const labels = feedData.map((data) => data.day);
+    const values = feedData.map((data) => data.feed);
+
+    // Create the chart
+    const ctx = document.getElementById("weeklyFeedChart").getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "feed",
+                    data: values,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...values) + 5,
+                },
+            },
+        },
+    });
+}
+
+function temperatureWithWater() {
+    // Sample data for temperature and water levels per hour for 12 hours
+    const data = [
+        { time: "01:00", temperature: 20, waterLevel: 50 },
+        { time: "02:00", temperature: 24, waterLevel: 55 },
+        { time: "03:00", temperature: 26, waterLevel: 60 },
+        { time: "04:00", temperature: 22, waterLevel: 58 },
+        { time: "05:00", temperature: 18, waterLevel: 52 },
+        { time: "06:00", temperature: 22, waterLevel: 54 },
+        { time: "07:00", temperature: 25, waterLevel: 57 },
+        { time: "08:00", temperature: 27, waterLevel: 60 },
+        { time: "09:00", temperature: 28, waterLevel: 58 },
+        { time: "10:00", temperature: 26, waterLevel: 55 },
+        { time: "11:00", temperature: 24, waterLevel: 51 },
+        { time: "12:00", temperature: 22, waterLevel: 48 },
+    ];
+
+    // Extract labels, temperature, and water level values from the data
+    const labels = data.map((dataPoint) => dataPoint.time);
+    const temperatures = data.map((dataPoint) => dataPoint.temperature);
+    const waterLevels = data.map((dataPoint) => dataPoint.waterLevel);
+
+    // Create the chart
+    const ctx = document
+        .getElementById("temperatureWaterChart")
+        .getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Temperature",
+                    data: temperatures,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+                {
+                    label: "Water Level",
+                    data: waterLevels,
+                    borderColor: "rgb(54, 162, 235)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax:
+                        Math.max(
+                            Math.max(...temperatures),
+                            Math.max(...waterLevels)
+                        ) + 10,
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Temperature and Water Level per Hour",
+                },
+            },
+        },
+    });
+}
+
+function feedWithWater() {
+    // Sample data for temperature and water levels per hour for 12 hours
+    const data = [
+        { time: "01:00", feed: 20, waterLevel: 50 },
+        { time: "02:00", feed: 24, waterLevel: 55 },
+        { time: "03:00", feed: 26, waterLevel: 60 },
+        { time: "04:00", feed: 22, waterLevel: 58 },
+        { time: "05:00", feed: 18, waterLevel: 52 },
+        { time: "06:00", feed: 22, waterLevel: 54 },
+        { time: "07:00", feed: 25, waterLevel: 57 },
+        { time: "08:00", feed: 27, waterLevel: 60 },
+        { time: "09:00", feed: 28, waterLevel: 58 },
+        { time: "10:00", feed: 26, waterLevel: 55 },
+        { time: "11:00", feed: 24, waterLevel: 51 },
+        { time: "12:00", feed: 22, waterLevel: 48 },
+    ];
+
+    // Extract labels, feed, and water level values from the data
+    const labels = data.map((dataPoint) => dataPoint.time);
+    const feeds = data.map((dataPoint) => dataPoint.feed);
+    const waterLevels = data.map((dataPoint) => dataPoint.waterLevel);
+
+    // Create the chart
+    const ctx = document.getElementById("feedWaterChart").getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "feed",
+                    data: feeds,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+                {
+                    label: "Water Level",
+                    data: waterLevels,
+                    borderColor: "rgb(54, 162, 235)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax:
+                        Math.max(Math.max(...feeds), Math.max(...waterLevels)) +
+                        10,
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: "feed and Water Level per Hour",
+                },
+            },
+        },
+    });
+}
+
+function temperatureWeight() {
+    // Sample data for temperature and weight per hour for 12 hours
+    const data = [
+        { time: "01:00", temperature: 20, weight: 70 },
+        { time: "02:00", temperature: 24, weight: 72 },
+        { time: "03:00", temperature: 26, weight: 71 },
+        { time: "04:00", temperature: 22, weight: 69 },
+        { time: "05:00", temperature: 18, weight: 68 },
+        { time: "06:00", temperature: 22, weight: 70 },
+        { time: "07:00", temperature: 25, weight: 72 },
+        { time: "08:00", temperature: 27, weight: 73 },
+        { time: "09:00", temperature: 28, weight: 71 },
+        { time: "10:00", temperature: 26, weight: 69 },
+        { time: "11:00", temperature: 24, weight: 68 },
+        { time: "12:00", temperature: 22, weight: 70 },
+    ];
+
+    // Extract labels, temperature, and weight values from the data
+    const labels = data.map((dataPoint) => dataPoint.time);
+    const temperatures = data.map((dataPoint) => dataPoint.temperature);
+    const weights = data.map((dataPoint) => dataPoint.weight);
+
+    // Create the chart
+    const ctx = document
+        .getElementById("temperatureWeightChart")
+        .getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Temperature",
+                    data: temperatures,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+                {
+                    label: "Weight",
+                    data: weights,
+                    borderColor: "rgb(54, 162, 235)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax:
+                        Math.max(
+                            Math.max(...temperatures),
+                            Math.max(...weights)
+                        ) + 10,
+                },
+            },
+        },
+    });
+}
+
+function feedWithTemperature() {
+    // Sample data for temperature and weight per hour for 12 hours
+    const data = [
+        { time: "01:00", temperature: 20, feed: 70 },
+        { time: "02:00", temperature: 24, feed: 72 },
+        { time: "03:00", temperature: 26, feed: 71 },
+        { time: "04:00", temperature: 22, feed: 69 },
+        { time: "05:00", temperature: 18, feed: 68 },
+        { time: "06:00", temperature: 22, feed: 70 },
+        { time: "07:00", temperature: 25, feed: 72 },
+        { time: "08:00", temperature: 27, feed: 73 },
+        { time: "09:00", temperature: 28, feed: 71 },
+        { time: "10:00", temperature: 26, feed: 69 },
+        { time: "11:00", temperature: 24, feed: 68 },
+        { time: "12:00", temperature: 22, feed: 70 },
+    ];
+
+    // Extract labels, temperature, and feed values from the data
+    const labels = data.map((dataPoint) => dataPoint.time);
+    const temperatures = data.map((dataPoint) => dataPoint.temperature);
+    const feeds = data.map((dataPoint) => dataPoint.feed);
+
+    // Create the chart
+    const ctx = document
+        .getElementById("feedTemperatureChart")
+        .getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Temperature",
+                    data: temperatures,
+                    borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                },
+                {
+                    label: "feed",
+                    data: feeds,
+                    borderColor: "rgb(54, 162, 235)",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax:
+                        Math.max(
+                            Math.max(...temperatures),
+                            Math.max(...feeds)
+                        ) + 10,
+                },
+            },
+        },
+    });
 }

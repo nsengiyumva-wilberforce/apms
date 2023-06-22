@@ -3,7 +3,7 @@
     background-color: green !important;
 }
 </style>
-<nav class="sidebar sidebar-offcanvas navbar-dark bg-success mt-5 position-relative position-fixed" id="sidebar">
+<nav class="sidebar sidebar-offcanvas navbar-dark bg-success mt-5 position-relative" id="sidebar">
 <img src="{{ asset('dash/APMS_logo.png' ) }}" alt="APMS_logo" class="img-thumbnail dash_logo pt-5">
     <ul class="nav flex-column mb-auto">
         <li class="nav-item mb-3">
@@ -18,12 +18,12 @@
                 <span class="menu-title text-light fs-4">Temperature</span>
             </a>
         </li>
-        <li class="nav-item mb-3">
+        {{-- <li class="nav-item mb-3">
             <a class="nav-link" href="/admin/audio">
                 <i class="mdi mdi-audio-video menu-icon text-light"></i>
                 <span class="menu-title text-light fs-4">Audio</span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item mb-3">
             <a class="nav-link" href="/admin/feed">
                 <i class="mdi mdi-food-apple menu-icon text-light"></i>
@@ -48,12 +48,12 @@
                 <span class="menu-title text-light fs-4">Sensors</span>
             </a>
         </li>
-        <li class="nav-item mb-3">
+        {{-- <li class="nav-item mb-3">
             <a class="nav-link" href="/admin/system">
                 <i class="mdi mdi-blender-software menu-icon text-light"></i>
                 <span class="menu-title text-light fs-4">System</span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item mb-3">
             <a class="nav-link" href="/admin/user">
                 <i class="mdi mdi-account menu-icon text-light"></i>
