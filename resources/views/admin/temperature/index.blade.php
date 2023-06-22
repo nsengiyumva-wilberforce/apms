@@ -59,9 +59,24 @@
                         <canvas id="temperatureWeightChart" height="30%"></canvas>
                     </div>
                     <div class="tab-pane fade" id="pills-deduction" role="tabpanel" aria-labelledby="pills-deduction-tab">
-                        <div class="alert alert-success" role="alert">
-                            There is high water consumption compared to feed intake during higher temperatures. This may result into poor growth.
-                          </div>
+                        <div class="row justify-content-between">
+                            <div class="col-3 card">
+                                <h1>Conclusion 1</h1>
+                                <h3>
+                                    In conclusion, the temperature variation of water plays a crucial role in various aspects of our lives, impacting ecosystems, weather patterns, and human activities, highlighting the significance of understanding and monitoring these fluctuations for the well-being of our planet and its inhabitants.
+                                </h3>
+                            </div>
+                            <div class="col-3 card">
+                                <h1>Conclusion 2</h1>
+                                <h3>In conclusion, the temperature variation of water plays a crucial role in various aspects of our lives, impacting ecosystems, weather patterns, and human activities, highlighting the significance of understanding and monitoring these fluctuations for the well-being of our planet and its inhabitants.</h3>
+                            </div>
+                            <div class="col-3 card">
+                                <h1>Conclusion 3</h1>
+                                <h3>
+                                    In conclusion, the temperature variation of water plays a crucial role in various aspects of our lives, impacting ecosystems, weather patterns, and human activities, highlighting the significance of understanding and monitoring these fluctuations for the well-being of our planet and its inhabitants.
+                                </h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
