@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="{{asset('dash/vendors/css/vendor.bundle.base.css')}}">
 <!-- endinject -->
 <!-- Plugin css for this page -->
-<link rel="stylesheet" href="{{asset('dash/vendors/datatables.net-bs4/dataTables.bootstrap4.html')}}">
+<link rel="stylesheet" href="{{asset('dash/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
 <link rel="stylesheet" href="{{asset('dash/js/select.dataTables.min.css')}}">
 <!-- End plugin css for this page -->
 <!-- inject:css -->
