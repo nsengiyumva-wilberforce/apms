@@ -1,3 +1,4 @@
+
 google.charts.load("current", {
     packages: ["gauge", "corechart", "table", "charteditor", "line"],
 });
@@ -24,6 +25,8 @@ google.charts.setOnLoadCallback(temperatureWithWater);
 google.charts.setOnLoadCallback(temperatureWeight);
 google.charts.setOnLoadCallback(feedWithTemperature);
 google.charts.setOnLoadCallback(feedWithWater);
+
+
 
 function drawFeedChart() {
     var data = google.visualization.arrayToDataTable([
@@ -52,11 +55,12 @@ function drawFeedChart() {
     setInterval(function () {
         fetch("http://127.0.0.1:8000/api/feed/current/")
             .then((response) => response.json())
-            .then((json) => {
-                console.log(json[0].feedLevelReading);
-                data.setValue(0, 1, json[0].feedLevelReading);
-                chart.draw(data, options);
-            });
+            .then(
+                (json) => {
+                    console.log(json[0].feedLevelReading)
+                    data.setValue(0, 1, json[0].feedLevelReading);
+                    chart.draw(data, options);
+                });
     }, 3000);
 }
 
@@ -86,11 +90,12 @@ function drawTemperatureChart() {
     setInterval(function () {
         fetch("http://127.0.0.1:8000/api/temperature/current/")
             .then((response) => response.json())
-            .then((json) => {
-                console.log(json[0].temperatureReading);
-                data.setValue(0, 1, json[0].temperatureReading);
-                chart.draw(data, options);
-            });
+            .then(
+                (json) => {
+                    console.log(json[0].temperatureReading)
+                    data.setValue(0, 1, json[0].temperatureReading);
+                    chart.draw(data, options);
+                });
     }, 3000);
 }
 
@@ -120,11 +125,12 @@ function drawWaterChart() {
     setInterval(function () {
         fetch("http://127.0.0.1:8000/api/water/current/")
             .then((response) => response.json())
-            .then((json) => {
-                console.log(json[0].waterLevelReading);
-                data.setValue(0, 1, json[0].waterLevelReading);
-                chart.draw(data, options);
-            });
+            .then(
+                (json) => {
+                    console.log(json[0].waterLevelReading)
+                    data.setValue(0, 1, json[0].waterLevelReading);
+                    chart.draw(data, options);
+                });
     }, 3000);
 }
 
@@ -261,45 +267,42 @@ function drawTempTable() {
     );
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON(
-        "https://apms-production.up.railway.app/api/temperature",
-        function (response) {
-            // Loop through the data and add it to the DataTable object
-            $.each(response, function (index, value) {
-                // Convert the ISO 8601 date string to a standard format
-                var date = new Date(value.created_at);
-                var formattedDate = date.toLocaleString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric",
-                    hour12: true,
-                });
-
-                // Add the formatted date and temperature to the DataTable
-                data.addRow([formattedDate, value.temperatureReading]);
+    $.getJSON("https://apms-production.up.railway.app/api/temperature", function (response) {
+        // Loop through the data and add it to the DataTable object
+        $.each(response, function (index, value) {
+            // Convert the ISO 8601 date string to a standard format
+            var date = new Date(value.created_at);
+            var formattedDate = date.toLocaleString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                hour12: true,
             });
 
-            // Draw the table with the updated data
-            table.draw(data, {
-                showRowNumber: true,
-                width: "100%",
-                height: "100%",
-                cssClassNames: {
-                    headerRow: "google-chart-header",
-                    tableRow: "google-chart-row",
-                    oddTableRow: "google-chart-row",
-                    selectedTableRow: "google-chart-selected-row",
-                    hoverTableRow: "google-chart-hover-row",
-                    headerCell: "google-chart-header-cell",
-                    tableCell: "google-chart-cell",
-                    rowNumberCell: "google-chart-row-number",
-                },
-            });
-        }
-    );
+            // Add the formatted date and temperature to the DataTable
+            data.addRow([formattedDate, value.temperatureReading]);
+        });
+
+        // Draw the table with the updated data
+        table.draw(data, {
+            showRowNumber: true,
+            width: "100%",
+            height: "100%",
+            cssClassNames: {
+                headerRow: "google-chart-header",
+                tableRow: "google-chart-row",
+                oddTableRow: "google-chart-row",
+                selectedTableRow: "google-chart-selected-row",
+                hoverTableRow: "google-chart-hover-row",
+                headerCell: "google-chart-header-cell",
+                tableCell: "google-chart-cell",
+                rowNumberCell: "google-chart-row-number",
+            },
+        });
+    });
 }
 
 function drawWaterTable() {
@@ -308,48 +311,45 @@ function drawWaterTable() {
     data.addColumn("number", "Water Level(ml)");
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON(
-        "https://apms-production.up.railway.app/api/water",
-        function (response) {
-            // Loop through the data and add it to the DataTable object
-            $.each(response, function (index, value) {
-                var date = new Date(value.created_at);
-                var formattedDate = date.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric",
-                    hour12: true,
-                });
-                data.addRow([formattedDate, value.waterLevelReading]);
+    $.getJSON("https://apms-production.up.railway.app/api/water", function (response) {
+        // Loop through the data and add it to the DataTable object
+        $.each(response, function (index, value) {
+            var date = new Date(value.created_at);
+            var formattedDate = date.toLocaleString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric"
             });
+            data.addRow([formattedDate, value.waterLevelReading]);
+        });
 
-            // Create a new Table object and bind it to the HTML element
-            var table = new google.visualization.Table(
-                document.getElementById("water_table")
-            );
+        // Create a new Table object and bind it to the HTML element
+        var table = new google.visualization.Table(
+            document.getElementById("water_table")
+        );
 
-            // Draw the table with the updated data
-            table.draw(data, {
-                showRowNumber: true,
-                width: "100%",
-                height: "100%",
-                cssClassNames: {
-                    headerRow: "google-chart-header",
-                    tableRow: "google-chart-row",
-                    oddTableRow: "google-chart-row",
-                    selectedTableRow: "google-chart-selected-row",
-                    hoverTableRow: "google-chart-hover-row",
-                    headerCell: "google-chart-header-cell",
-                    tableCell: "google-chart-cell",
-                    rowNumberCell: "google-chart-row-number",
-                },
-            });
-        }
-    );
+        // Draw the table with the updated data
+        table.draw(data, {
+            showRowNumber: true,
+            width: "100%",
+            height: "100%",
+            cssClassNames: {
+                headerRow: "google-chart-header",
+                tableRow: "google-chart-row",
+                oddTableRow: "google-chart-row",
+                selectedTableRow: "google-chart-selected-row",
+                hoverTableRow: "google-chart-hover-row",
+                headerCell: "google-chart-header-cell",
+                tableCell: "google-chart-cell",
+                rowNumberCell: "google-chart-row-number",
+            },
+        });
+    });
 }
+
 
 function drawAudioTable() {
     var data = new google.visualization.DataTable();
@@ -402,47 +402,44 @@ function drawFeedTable() {
     data.addColumn("number", "Feed Amount(Kgs)");
 
     // Perform an AJAX request to retrieve data from the API endpoint
-    $.getJSON(
-        "https://apms-production.up.railway.app/api/feed",
-        function (response) {
-            // Loop through the data and add it to the DataTable object
-            $.each(response, function (index, value) {
-                var date = new Date(value.created_at);
-                var formattedDate = date.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric",
-                    hour12: true,
-                });
-                data.addRow([formattedDate, value.feedLevelReading]);
+    $.getJSON("https://apms-production.up.railway.app/api/feed", function (response) {
+        // Loop through the data and add it to the DataTable object
+        $.each(response, function (index, value) {
+            var date = new Date(value.created_at);
+            var formattedDate = date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                hour12: true,
             });
+            data.addRow([formattedDate, value.feedLevelReading]);
+        });
 
-            // Create a new Table object and bind it to the HTML element
-            var table = new google.visualization.Table(
-                document.getElementById("feed_table")
-            );
+        // Create a new Table object and bind it to the HTML element
+        var table = new google.visualization.Table(
+            document.getElementById("feed_table")
+        );
 
-            // Draw the table with the updated data
-            table.draw(data, {
-                showRowNumber: true,
-                width: "100%",
-                height: "100%",
-                cssClassNames: {
-                    headerRow: "google-chart-header",
-                    tableRow: "google-chart-row",
-                    oddTableRow: "google-chart-row",
-                    selectedTableRow: "google-chart-selected-row",
-                    hoverTableRow: "google-chart-hover-row",
-                    headerCell: "google-chart-header-cell",
-                    tableCell: "google-chart-cell",
-                    rowNumberCell: "google-chart-row-number",
-                },
-            });
-        }
-    );
+        // Draw the table with the updated data
+        table.draw(data, {
+            showRowNumber: true,
+            width: "100%",
+            height: "100%",
+            cssClassNames: {
+                headerRow: "google-chart-header",
+                tableRow: "google-chart-row",
+                oddTableRow: "google-chart-row",
+                selectedTableRow: "google-chart-selected-row",
+                hoverTableRow: "google-chart-hover-row",
+                headerCell: "google-chart-header-cell",
+                tableCell: "google-chart-cell",
+                rowNumberCell: "google-chart-row-number",
+            },
+        });
+    });
 }
 
 function drawLiveTempChart() {
