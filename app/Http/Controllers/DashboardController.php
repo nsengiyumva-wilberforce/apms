@@ -7,7 +7,7 @@ use App\Http\Requests;
 use carbon\Carbon;
 
 use Illuminate\Http\Request;
-use App\models\Temperature;
+use App\Models\Temperature;
 use App\models\Feed;
 use App\Models\Water;
 
