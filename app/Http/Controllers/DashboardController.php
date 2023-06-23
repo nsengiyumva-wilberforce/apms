@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use carbon\Carbon;
 
 use Illuminate\Http\Request;
+use App\models\Temperature;
+use App\models\Feed;
+use App\Models\Water;
 
 
 class DashboardController extends Controller
@@ -17,29 +21,19 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        //total number of pupils
-        $pupils = 100;
+        //get yesterday
+        $yesterday = Carbon::yesterday()->format('Y-m-d');
+        //active sensors
+        $activeSensors = Temperature::whereDate('created_at', $yesterday)->count();
 
-        //Number of pupils who are active
-        $activePupils = 20;
+        //inactive sensors
+        $inactiveSensors = Water::whereDate('created_at', '<', $yesterday)->count();
 
-        //Number of pupils are deactive
-        $deactivePupils = 80;
+        //dd($inactiveSensors);
 
-
-        //total number of assignments
-        $assignments = 12;
-
-        //Assignments tat haven't reached the deadline
-        $date = today()->format('Y-m-d');
-         $notYetDeadline = 23;
-
-         //Assignments that reached the deadline
-        $date = today()->format('Y-m-d');
-        $overdue = 50;
 
         //display dashboard
-        return view('admin.dashboard.index', compact('pupils', 'activePupils', 'deactivePupils', 'assignments', 'notYetDeadline', 'overdue'));
+        return view('admin.dashboard.index', compact('activeSensors', 'inactiveSensors'));
     }
 
     /**

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Security;
+use Illuminate\Support\Facades\File;
+
+
 
 class SecurityController extends Controller
 {
@@ -41,8 +44,9 @@ class SecurityController extends Controller
         $security = new Security();
         $newImageName = "";
         if($request->hasFile('reading')){
-            $newImageName = $request->reading->getClientOriginalName();
-            $request->reading->move(public_path('images'), $newImageName);
+            // $newImageName = $request->reading->getClientOriginalName();
+            // $request->reading->move(public_path('images'), $newImageName);
+            $newImageName = $request->file('reading')->store('images', 'public');
         } else {
             $newImageName = Null;
         }
