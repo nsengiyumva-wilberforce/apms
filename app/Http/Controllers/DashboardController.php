@@ -7,9 +7,9 @@ use App\Http\Requests;
 use carbon\Carbon;
 
 use Illuminate\Http\Request;
-use App\Models\Temperature;
 use App\models\Feed;
 use App\Models\Water;
+use App\Models\Temperature;
 
 
 class DashboardController extends Controller
@@ -21,19 +21,19 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        //get yesterday
-        $yesterday = Carbon::yesterday()->format('Y-m-d');
-        //active sensors
-        $activeSensors = Temperature::whereDate('created_at', $yesterday)->count();
+        // //get yesterday
+        // $yesterday = Carbon::yesterday()->format('Y-m-d');
+        // //active sensors
+        // $activeSensors = Temperature::whereDate('created_at', $yesterday)->count();
 
-        //inactive sensors
-        $inactiveSensors = Water::whereDate('created_at', '<', $yesterday)->count();
+        // //inactive sensors
+        // $inactiveSensors = Water::whereDate('created_at', '<', $yesterday)->count();
 
         //dd($inactiveSensors);
 
 
         //display dashboard
-        return view('admin.dashboard.index', compact('activeSensors', 'inactiveSensors'));
+        return view('admin.dashboard.index');
     }
 
     /**
