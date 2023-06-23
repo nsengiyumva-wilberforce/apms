@@ -53,7 +53,7 @@ function drawFeedChart() {
     chart.draw(data, options);
 
     setInterval(function () {
-        fetch("http://127.0.0.1:8000/api/feed/current/")
+        fetch("https://apms-production.up.railway.app/api/feed/current/")
             .then((response) => response.json())
             .then(
                 (json) => {
@@ -88,7 +88,7 @@ function drawTemperatureChart() {
     chart.draw(data, options);
 
     setInterval(function () {
-        fetch("http://127.0.0.1:8000/api/temperature/current/")
+        fetch("https://apms-production.up.railway.app/api/temperature/current/")
             .then((response) => response.json())
             .then(
                 (json) => {
@@ -123,7 +123,7 @@ function drawWaterChart() {
     chart.draw(data, options);
 
     setInterval(function () {
-        fetch("http://127.0.0.1:8000/api/water/current/")
+        fetch("https://apms-production.up.railway.app/api/water/current/")
             .then((response) => response.json())
             .then(
                 (json) => {
