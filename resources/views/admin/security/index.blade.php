@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="content-wrapper shadow card round">
+        @if(count($security)>0)
         <div class="container-fluid">
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active text-center" id="tab-pane-{{ $security[0]->id }}" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -27,5 +28,10 @@
                 @endfor
             </ul>
         </div>
+        @else
+        <div class="alert alert-success text-center" role="alert">
+            <h1>Nothing found yet.</h1>
+          </div>
+        @endif
     </div>
 @endsection
